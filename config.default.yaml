@@ -1,0 +1,105 @@
+scan:
+  directories:
+    - ~/Documents
+    - ~/Desktop
+    - ~/Notes
+    - ~/Projects
+  ignore:
+    # Package managers & caches
+    - node_modules
+    - .bun
+    - .npm
+    - .yarn
+    - .pnpm-store
+    - .cache
+    - .local
+    - .Trash
+    - .cargo
+    - .rustup
+    - .go
+    - .gem
+    - .rbenv
+    - .pyenv
+    - .nvm
+    - .volta
+    - .gradle
+    - .m2
+    - .cocoapods
+    - .pub-cache
+
+    # Build & output
+    - dist
+    - build
+    - .next
+    - .nuxt
+    - .output
+    - __pycache__
+    - .venv
+    - target
+    - .tox
+    - .eggs
+
+    # VCS & IDE
+    - .git
+    - .svn
+    - .idea
+    - .vscode
+    - "*.code-workspace"
+
+    # Applications & system
+    - Applications
+    - Library
+    - .Spotlight-V100
+    - .fseventsd
+    - .DS_Store
+    - .CFUserTextEncoding
+
+    # Binary & media files
+    - "*.min.js"
+    - "*.lock"
+    - "*.map"
+    - "*.wasm"
+    - "*.png"
+    - "*.jpg"
+    - "*.jpeg"
+    - "*.gif"
+    - "*.svg"
+    - "*.ico"
+    - "*.mp3"
+    - "*.mp4"
+    - "*.mov"
+    - "*.avi"
+    - "*.zip"
+    - "*.tar"
+    - "*.gz"
+    - "*.dmg"
+    - "*.exe"
+    - "*.dylib"
+    - "*.so"
+    - "*.o"
+    - "*.a"
+    - "*.class"
+    - "*.jar"
+    - "*.ttf"
+    - "*.woff"
+    - "*.woff2"
+    - "*.eot"
+    - "*.db"
+    - "*.sqlite"
+    - "*.sqlite3"
+
+    # Large/generated files
+    - package-lock.json
+    - "*.chunk.js"
+    - "*.bundle.js"
+
+neo4j:
+  uri: bolt://localhost:7687
+  username: neo4j
+  password: password
+
+extraction:
+  model: claude-haiku-4-5-20251001
+
+storage:
+  data_dir: .aboutyou

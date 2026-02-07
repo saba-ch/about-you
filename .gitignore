@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.aboutyou/
+*.tsbuildinfo
+.DS_Store
+lance_data/

@@ -1,0 +1,44 @@
+{
+  "name": "about-you",
+  "version": "0.1.0",
+  "description": "Personal knowledge system — scans your files, builds a knowledge graph, exposes it via MCP",
+  "type": "module",
+  "main": "src/index.ts",
+  "bin": {
+    "about-you": "./src/index.ts"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "scan": "tsx src/index.ts scan",
+    "serve": "tsx src/index.ts serve",
+    "status": "tsx src/index.ts status",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.24",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "neo4j-driver": "^5.28.1",
+    "@lancedb/lancedb": "^0.15.0",
+    "fastembed": "^1.0.1",
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.8.0",
+    "turndown": "^7.2.0",
+    "glob": "^11.0.1",
+    "ignore": "^7.0.4",
+    "yaml": "^2.7.0",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "xxhash-wasm": "^1.1.0",
+    "apache-arrow": "^18.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "tsx": "^4.19.2",
+    "@types/node": "^22.12.0",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/turndown": "^5.0.5",
+    "vitest": "^3.0.5"
+  }
+}
