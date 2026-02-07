@@ -26,8 +26,8 @@ export async function runReset(config: Config, opts: { yes: boolean }): Promise<
     await graphStore.close();
   }
 
-  // Clear local data dir
-  const dataDir = join(process.cwd(), config.storage.data_dir);
+  // Clear local data dir (already absolute from config)
+  const dataDir = config.storage.data_dir;
   if (existsSync(dataDir)) {
     rmSync(dataDir, { recursive: true });
     logger.info(`Removed ${dataDir}`);

@@ -10,42 +10,47 @@ A personal knowledge system that scans your files, extracts facts about you usin
 4. Results are stored in Neo4j (graph) + LanceDB (vector search)
 5. An MCP server exposes tools for any LLM to query your personal knowledge graph
 
-## Setup
-
-### Prerequisites
-
-- Node.js 18+
-- Docker (for Neo4j)
-
-### Install
+## Quick Start
 
 ```bash
-git clone <repo>
+# 1. Clone and install
+git clone https://github.com/saba-ch/about-you.git
 cd about-you
 npm install
-```
 
-### Start Neo4j
-
-```bash
+# 2. Start Neo4j (Docker)
 docker run -d --name neo4j \
   -p 7474:7474 -p 7687:7687 \
   -e NEO4J_AUTH=neo4j/password \
   neo4j:community
+
+# 3. Scan your files
+npx tsx src/index.ts scan ~
+
+# 4. Start the MCP server
+npx tsx src/index.ts serve
 ```
+
+That's it. Steps 3 and 4 are the two main commands — scan to build the knowledge graph, serve to expose it to LLMs.
+
+### Prerequisites
+
+- Node.js 18+ (recommended: 24+)
+- Docker (for Neo4j)
 
 ### Configure (optional)
 
-Copy and edit the config if you want to change defaults:
+Copy and edit the config if you want to change scan directories, ignore patterns, or Neo4j credentials:
 
 ```bash
 cp config.default.yaml config.yaml
 ```
 
-Or set environment variables in `.env`:
+Or override Neo4j settings via `.env`:
 
 ```bash
 cp .env.example .env
+# Edit NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
 ```
 
 ## Usage
@@ -97,13 +102,13 @@ MATCH (p:Person)-[:SKILLED_IN]->(s:Skill) RETURN p.name, s.name
 MATCH (p:Person)-[r:WORKS_AT]->(o:Organization) RETURN p.name, o.name, r.role, r.since
 ```
 
-### Start the MCP server
+### Use as MCP server
 
-```bash
-npx tsx src/index.ts serve
-```
+The MCP server lets any LLM query your knowledge graph. You can connect it to Claude Desktop or Claude Code.
 
-Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+#### Claude Desktop
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ```json
 {
@@ -116,7 +121,24 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
 }
 ```
 
-Or to Claude Code's MCP settings. Then ask Claude things like:
+**Note:** Claude Desktop doesn't use your shell PATH. If `npx` isn't found, use the absolute path (run `which npx` to find it). Then restart Claude Desktop.
+
+#### Claude Code
+
+```bash
+claude mcp add about-you npx tsx /path/to/about-you/src/index.ts serve
+```
+
+#### Test it manually
+
+```bash
+npx tsx src/index.ts serve
+# Server starts on stdio — use Ctrl+C to stop
+```
+
+#### Try asking Claude
+
+Once connected, ask Claude things like:
 
 - "What do you know about me?"
 - "What skills do I have?"

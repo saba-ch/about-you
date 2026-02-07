@@ -29,18 +29,20 @@ export async function createMCPServer(config: Config): Promise<AboutYouMCPServer
   const vectorStore = new VectorStore(config.storage.data_dir);
 
   let graphConnected = false;
+  let vectorReady = false;
 
   try {
     await graphStore.connect();
     graphConnected = true;
   } catch (err) {
-    logger.warn(`Neo4j not available: ${err}. Graph tools will return errors.`);
+    // Don't crash — graph tools will return errors gracefully
   }
 
   try {
     await vectorStore.init();
+    vectorReady = true;
   } catch (err) {
-    logger.warn(`Vector store init failed: ${err}. Search tools will return empty results.`);
+    // Don't crash — search will return empty results
   }
 
   // Register tools

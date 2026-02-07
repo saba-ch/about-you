@@ -46,9 +46,12 @@ function deepMerge(target: Record<string, unknown>, source: Record<string, unkno
   return result;
 }
 
+// Project root — works regardless of cwd
+const PROJECT_ROOT = resolve(import.meta.dirname, '..');
+
 export function loadConfig(configPath?: string): Config {
-  // Load default config
-  const defaultPath = resolve(process.cwd(), 'config.default.yaml');
+  // Load default config from project root (not cwd)
+  const defaultPath = resolve(PROJECT_ROOT, 'config.default.yaml');
   let config: Record<string, unknown> = {};
 
   if (existsSync(defaultPath)) {
@@ -80,7 +83,9 @@ export function loadConfig(configPath?: string): Config {
 
   // Expand home directories
   typed.scan.directories = typed.scan.directories.map(expandHome);
-  typed.storage.data_dir = expandHome(typed.storage.data_dir);
+
+  // Resolve data_dir to absolute path (relative to project root, not cwd)
+  typed.storage.data_dir = resolve(PROJECT_ROOT, expandHome(typed.storage.data_dir));
 
   return typed;
 }

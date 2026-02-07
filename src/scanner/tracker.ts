@@ -21,7 +21,7 @@ export class Tracker {
   private state: ScanState;
 
   constructor(dataDir: string) {
-    this.dataDir = join(process.cwd(), dataDir);
+    this.dataDir = dataDir;
     this.statePath = join(this.dataDir, 'scan-state.json');
     this.state = { version: 1, files: {}, lastScan: null };
   }

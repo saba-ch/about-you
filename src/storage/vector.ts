@@ -29,7 +29,7 @@ export class VectorStore {
   private embedder: FlagEmbedding | null = null;
 
   constructor(dataDir: string) {
-    this.dataDir = join(process.cwd(), dataDir, 'lance_data');
+    this.dataDir = join(dataDir, 'lance_data');
   }
 
   async init(): Promise<void> {
