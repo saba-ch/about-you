@@ -31,7 +31,7 @@ export async function runExtraction(
         model: config.model,
         customSystemPrompt: SYSTEM_PROMPT,
         maxTurns: 1000,
-        allowedTools: ['Read', 'Glob', 'Grep'],
+        allowedTools: ['Read', 'Glob', 'Grep', 'Bash'],
         permissionMode: 'bypassPermissions',
         cwd: directory,
       },
@@ -57,6 +57,8 @@ export async function runExtraction(
                 logger.info(`  [turn ${turnCount}] Glob: ${input.pattern}`);
               } else if (name === 'Grep') {
                 logger.info(`  [turn ${turnCount}] Grep: "${input.pattern}" in ${input.path || '.'}`);
+              } else if (name === 'Bash') {
+                logger.info(`  [turn ${turnCount}] Bash: ${input.command}`);
               } else {
                 logger.info(`  [turn ${turnCount}] ${name}`);
               }
@@ -95,7 +97,14 @@ export async function runExtraction(
       }
     }
   } catch (err) {
-    logger.error(`Agent failed: ${err}`);
+    logger.error(`Agent crashed: ${err}`);
+    if (results.length > 0) {
+      const merged = mergeResults(results);
+      logger.info(
+        `Recovered partial results: ${merged.entities.length} entities, ${merged.relationships.length} relationships, ${merged.memories.length} memories`,
+      );
+      return merged;
+    }
     throw err;
   }
 
